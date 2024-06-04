@@ -148,7 +148,7 @@ def buscar_empleado_por_dni_apellido(lista_empleados):
     else:
         print("Opcion no valida. ")
 
-def eliminar_empleado(lista_empleados, lista_empleados_eliminados, id):
+def eliminar_empleado(lista_empleados, lista_empleados_eliminados, id, empleados_no_eliminados):
     for empleado in lista_empleados:
         if empleado["id"] == id:
             confirmacion = input(f"Estás a punto de eliminar al empleado con el ID {id}, ¿Estás seguro? s/n: ")
@@ -156,15 +156,35 @@ def eliminar_empleado(lista_empleados, lista_empleados_eliminados, id):
                 empleado["eliminado"] = True
                 print(f"Empleado con ID {id} marcado como eliminado.")
                 lista_empleados_eliminados.append(empleado)
-                lista_empleados.remove(empleado)
-                guardar_empleados_en_csv(lista_empleados)
-                guardar_empleados_eliminados_en_json(lista_empleados_eliminados)
             else:
                 print("Eliminación cancelada.")
-            return None
-    print("Empleado no encontrado.")
+            empleado_encontrado = True
+        else:
+            empleados_no_eliminados.append(empleado)
+
+    if  empleado_encontrado is None :
+        print("Empleado no encontrado.")
     return None
 
+#  def eliminar_empleado(lista_empleados, id, empleados_eliminados, empleados_no_eliminados)  
+# empleado_encontrado = False
+    #for empleado in lista_empleados:
+     #   if empleado["id"] == id:
+      #      confirmacion = input(f"Estás a punto de eliminar al empleado con el ID {id}, ¿Estás seguro? s/n: ")
+       #     if confirmacion.lower() == "s":
+        #        empleado["eliminado"] = True
+         #       print(f"Empleado con ID {id} marcado como eliminado.")
+          #      empleados_eliminados.append(empleado)
+           # else:
+            #    print("Eliminación cancelada.")
+            #empleado_encontrado = True
+        #else:
+         #   empleados_no_eliminados.append(empleado)
+
+    #if  empleado_encontrado is None:
+     #   print("Empleado no encontrado.")
+    
+    #return empleados_no_eliminados, empleados_eliminados
 
 
 def calcular_salario_promedio(lista_empleados):

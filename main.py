@@ -20,7 +20,9 @@ def main():
     reporte_contador_sueldo = 0
     reporte_contador_apellido = 0
     historial = {}
-    empleado_encontrado = None
+    empleado_encontrado = None    
+    empleados_no_eliminados = []
+    # lista filtrada/copia de la lista original:  lista_empleados[:] = empleados_no_eliminados 
     while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ")
@@ -32,7 +34,12 @@ def main():
             modificar_empleado(id_modificar, lista_empleados, historial,empleado_encontrado)  
         elif opcion == "3":
             id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
-            eliminar_empleado(lista_empleados, lista_empleados_eliminados, id_eliminar)
+            eliminar_empleado(lista_empleados, lista_empleados_eliminados, id_eliminar, empleados_no_eliminados)
+            lista_empleados[:] = empleados_no_eliminados
+            empleados_no_eliminados.clear()
+            #id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
+            #lista_empleados, empleados_eliminados = eliminar_empleado(lista_empleados, id_eliminar)
+            #lista_empleados_eliminados.extend(empleados_eliminados)
         elif opcion == "4":
             mostrar_lista_empleados(lista_empleados)
         elif opcion == "5":
