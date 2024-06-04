@@ -158,8 +158,9 @@ def eliminar_empleado(lista_empleados, lista_empleados_eliminados, id):
                 guardar_empleados_eliminados_en_json(lista_empleados_eliminados)
             else:
                 print("Eliminación cancelada.")
-            return
+            return None
     print("Empleado no encontrado.")
+    return None
 
 
 

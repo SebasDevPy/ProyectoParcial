@@ -2,25 +2,32 @@ import validaciones
 
 def get_int(validacion):
     while True:
-        numero = int(input("Ingrese su DNI sin puntos: "))
-        if validacion(numero):
-            return str(numero)
-        else:
-            print("Ingrese correctamente su DNI")
+        try:
+            numero = int(input("Ingrese su DNI sin puntos: "))
+            if validacion(numero):
+                return str(numero)
+            else:
+                print("Ingrese correctamente su DNI")
+        except ValueError:
+            print("Ingrese un numero valido")
 
-def get_int_dos():
+
+def get_int_dos(validacion):
     while True:
-        numero = int(input("Ingrese el salario: "))
-        if validaciones.validar_salario(numero):
-            return str(numero)
-        else:
-            print("El salario debe de ser igual o mayor a $234315.")
+        try:
+            numero = int(input("Ingrese el salario: "))
+            if validacion(numero):
+                return str(numero)
+            else:
+                print("El salario debe de ser igual o mayor a $234315.")
+        except ValueError:
+            print("Ingrese un monto superior a: $234315")
 
 def get_str(prompt, validacion):
     while True:
-        s = input(prompt)
-        if validacion(s):
-            return s
+        mensaje = input(prompt)
+        if validacion(mensaje):
+            return mensaje
         else:
             print("Entrada no válida, no puede contener más de 20 caracteres, números ni caracteres especiales")
 
