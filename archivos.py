@@ -1,5 +1,6 @@
 import csv
 import json
+from datetime import datetime
 
 def leer_empleados_desde_csv(lista_empleados, contador_empleados_id):
 
@@ -57,3 +58,51 @@ def cargar_empleados_eliminados_desde_json(lista_empleados_eliminados):
     except Exception as e:
         print(f"Error al cargar los empleados eliminados desde el archivo JSON: {e}")
     return lista_empleados_eliminados
+
+
+def generar_reporte_empleados_sueldo(lista_empleados, sueldo, reporte_contador_sueldo):
+    try:
+        sueldo = float(sueldo)  
+        empleados_filtrados = [empleado for empleado in lista_empleados if float(empleado["salario"]) > sueldo]
+        fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  
+        nombre_reporte = f"Reporte_{reporte_contador_sueldo}_{fecha_actual}.txt"
+        
+        with open(nombre_reporte, 'w', encoding="utf-8") as file:
+            file.write(f"Reporte de empleados con salario mayor a {sueldo}:\n\n")
+            file.write(f"Reporte número: {reporte_contador_sueldo}\n")
+            file.write(f"Fecha de solicitud: {fecha_actual}\n")
+            file.write(f"Cantidad de empleados que superan el sueldo de {sueldo}: {len(empleados_filtrados)}\n\n")
+            file.write(f'{"ID":<10} {"Nombre":<20} {"Apellido":<20} {"DNI":<10} {"Puesto":<20} {"Salario":<10}\n')
+            for empleado in empleados_filtrados:
+                file.write(f'{empleado["id"]:<10} {empleado["nombre"]:<20} {empleado["apellido"]:<20} {empleado["dni"]:<10} {empleado["puesto"]:<20} {empleado["salario"]:<10}\n')
+
+        print(f"Reporte generado: {nombre_reporte}")
+        return reporte_contador_sueldo + 1, True
+    except ValueError:
+        print("Error: El valor de sueldo no es válido. Por favor, ingrese un número válido.")
+        return reporte_contador_sueldo, False
+    
+def generar_reporte_por_apellido(lista_empleados, apellido, reporte_contador_apellido):
+    try:
+        empleados_filtrados = [empleado for empleado in lista_empleados if empleado["apellido"].lower() == apellido.lower()]
+        if not empleados_filtrados:
+            print(f"No se encontraron empleados con el apellido '{apellido}'.")
+            return reporte_contador_apellido, False  
+        
+        reporte_contador_apellido += 1
+        fecha_actual = datetime.now().strftime("%Y-%m-%d %H-%M-%S")  
+        nombre_reporte = f"Reporte_{reporte_contador_apellido}_{fecha_actual}.txt"
+        
+        with open(nombre_reporte, 'w', encoding="utf-8") as file:
+            file.write(f"Reporte número: {reporte_contador_apellido}\n")
+            file.write(f"Fecha de solicitud: {fecha_actual}\n")
+            file.write(f"Cantidad de empleados con el apellido '{apellido}': {len(empleados_filtrados)}\n\n")
+            file.write(f'{"ID":<10} {"Nombre":<20} {"Apellido":<20} {"DNI":<10} {"Puesto":<20} {"Salario":<10}\n')
+            for empleado in empleados_filtrados:
+                file.write(f'{empleado["id"]:<10} {empleado["nombre"]:<20} {empleado["apellido"]:<20} {empleado["dni"]:<10} {empleado["puesto"]:<20} {empleado["salario"]:<10}\n')
+
+        print(f"Reporte generado: {nombre_reporte}")
+        return reporte_contador_apellido, True 
+    except ValueError:
+        print("Error: El valor de sueldo no es válido. Por favor, ingrese un número válido.")
+        return reporte_contador_apellido, False 

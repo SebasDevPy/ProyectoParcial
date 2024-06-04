@@ -25,18 +25,24 @@ def get_int_dos(validacion):
 
 def get_str(prompt, validacion):
     while True:
-        mensaje = input(prompt)
-        if validacion(mensaje):
-            return mensaje
-        else:
+        try:
+            mensaje = input(prompt)
+            if validacion(mensaje):
+                return mensaje
+            else:
+                print("Entrada no válida, no puede contener más de 20 caracteres, números ni caracteres especiales")
+        except ValueError:
             print("Entrada no válida, no puede contener más de 20 caracteres, números ni caracteres especiales")
 
 def get_puestos(validacion):
     while True:
-        puesto = input("Ingrese el puesto: Gerente, Supervisor, Analista, Encargado o Asistente: ")
-        if validacion(puesto):
-            return puesto.capitalize()
-        else:
+        try:
+            puesto = input("Ingrese el puesto: Gerente, Supervisor, Analista, Encargado o Asistente: ")
+            if validacion(puesto):
+                return puesto.capitalize()
+            else:
+                print("Error, el puesto debe ser uno de los siguientes: Gerente, Supervisor, Analista, Encargado o Asistente")
+        except ValueError:
             print("Error, el puesto debe ser uno de los siguientes: Gerente, Supervisor, Analista, Encargado o Asistente")
 
 

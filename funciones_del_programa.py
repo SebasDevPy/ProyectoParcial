@@ -56,62 +56,65 @@ def deshacer_ultimo_cambio(id, lista_empleados, historial):
         print("No hay cambios que deshacer.")
 
 def modificar_empleado(id: int, lista_empleados, historial, empleado_encontrado): 
-    for empleado in lista_empleados:
-        if empleado["id"] == id:
-            empleado_encontrado = empleado
-            if id in historial:
-                historial[id].append(empleado.copy())
-            else:
-                historial[id] = [empleado.copy()]
-            
-            def confirmar_cambio(campo, nuevo_valor):
-                confirmacion = input(f"Estás a punto de cambiar el {campo} a {nuevo_valor}. ¿Estás seguro? (s/n): ")
-                if confirmacion.lower() == 's':
-                    empleado[campo] = nuevo_valor
-                    print(f"El {campo} ha sido modificado exitosamente.")
-                    guardar_empleados_en_csv(lista_empleados)
+    try:
+        for empleado in lista_empleados:
+            if empleado["id"] == id:
+                empleado_encontrado = empleado
+                if id in historial:
+                    historial[id].append(empleado.copy())
                 else:
-                    print(f"La modificación del {campo} ha sido cancelada.")
-            
-            print("Empleado encontrado")
-            print("¿Qué elemento deseas modificar?")
-            print("1. Salario")
-            print("2. Nombre")
-            print("3. Apellido")
-            print("4. DNI")
-            print("5. Puesto")
-            opcion = int(input("Ingresa el número de la opción: "))
+                    historial[id] = [empleado.copy()]
+                
+                def confirmar_cambio(campo, nuevo_valor):
+                    confirmacion = input(f"Estás a punto de cambiar el {campo} a {nuevo_valor}. ¿Estás seguro? (s/n): ")
+                    if confirmacion.lower() == 's':
+                        empleado[campo] = nuevo_valor
+                        print(f"El {campo} ha sido modificado exitosamente.")
+                        guardar_empleados_en_csv(lista_empleados)
+                    else:
+                        print(f"La modificación del {campo} ha sido cancelada.")
+                
+                print("Empleado encontrado")
+                print("¿Qué elemento deseas modificar?")
+                print("1. Salario")
+                print("2. Nombre")
+                print("3. Apellido")
+                print("4. DNI")
+                print("5. Puesto")
+                opcion = int(input("Ingresa el número de la opción: "))
 
-            if opcion == 1:
-                nuevo_valor = get_int(validar_salario, "Ingrese el nuevo salario: ")
-                confirmar_cambio("salario", nuevo_valor)
-            elif opcion == 2:
-                nuevo_valor = get_str("Nuevo nombre: ", validar_texto)
-                confirmar_cambio("nombre", nuevo_valor)
-            elif opcion == 3:
-                nuevo_valor = get_str("Nuevo apellido: ", validar_texto)
-                confirmar_cambio("apellido", nuevo_valor)
-            elif opcion == 4:
-                nuevo_valor = get_int(validar_dni, "Ingrese el nuevo DNI: ")
-                confirmar_cambio("dni", nuevo_valor)
-            elif opcion == 5:
-                nuevo_valor = get_puestos(validar_puesto)
-                confirmar_cambio("puesto", nuevo_valor)
-            else:
-                print("Opción no válida.")
-            break
-    if empleado_encontrado is None:
-        print("Empleado no encontrado.")
-        return
-    
-    print("¿Desea deshacer el último cambio?")
-    print("1. Si")
-    print("2. No")
-    opcion_deshacer = int(input("Ingresa el numero de la opcion: "))
-    if opcion_deshacer == 1:
-        deshacer_ultimo_cambio(id, lista_empleados)
-    elif opcion_deshacer == 2:
-        print("Continuar...")
+                if opcion == 1:
+                    nuevo_valor = get_int(validar_salario, "Ingrese el nuevo salario: ")
+                    confirmar_cambio("salario", nuevo_valor)
+                elif opcion == 2:
+                    nuevo_valor = get_str("Nuevo nombre: ", validar_texto)
+                    confirmar_cambio("nombre", nuevo_valor)
+                elif opcion == 3:
+                    nuevo_valor = get_str("Nuevo apellido: ", validar_texto)
+                    confirmar_cambio("apellido", nuevo_valor)
+                elif opcion == 4:
+                    nuevo_valor = get_int(validar_dni, "Ingrese el nuevo DNI: ")
+                    confirmar_cambio("dni", nuevo_valor)
+                elif opcion == 5:
+                    nuevo_valor = get_puestos(validar_puesto)
+                    confirmar_cambio("puesto", nuevo_valor)
+                else:
+                    print("Opción no válida.")
+                break
+        if empleado_encontrado is None:
+            print("Empleado no encontrado.")
+            return
+        
+        print("¿Desea deshacer el último cambio?")
+        print("1. Si")
+        print("2. No")
+        opcion_deshacer = int(input("Ingresa el numero de la opcion: "))
+        if opcion_deshacer == 1:
+            deshacer_ultimo_cambio(id, lista_empleados)
+        elif opcion_deshacer == 2:
+            print("Continuar...")
+    except ValueError as e:
+        print("Error:", e)
 
 def buscar_empleado_por_dni_apellido(lista_empleados):
     print("Seleccione una opcion de busqueda: ")
@@ -204,50 +207,6 @@ def ordenar_y_mostrar_empleados(lista_empleados):
     lista_empleados.sort(key=lambda empleado: empleado[criterio], reverse=reverse)
     mostrar_lista_empleados(lista_empleados)
 
-def generar_reporte_empleados_sueldo(lista_empleados, sueldo, reporte_contador_sueldo):
-    try:
-        sueldo = float(sueldo)  
-        empleados_filtrados = [empleado for empleado in lista_empleados if float(empleado["salario"]) > sueldo]
-        fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  
-        nombre_reporte = f"Reporte_{reporte_contador_sueldo}_{fecha_actual}.txt"
-        
-        with open(nombre_reporte, 'w', encoding="utf-8") as file:
-            file.write(f"Reporte de empleados con salario mayor a {sueldo}:\n\n")
-            file.write(f"Reporte número: {reporte_contador_sueldo}\n")
-            file.write(f"Fecha de solicitud: {fecha_actual}\n")
-            file.write(f"Cantidad de empleados que superan el sueldo de {sueldo}: {len(empleados_filtrados)}\n\n")
-            file.write(f'{"ID":<10} {"Nombre":<20} {"Apellido":<20} {"DNI":<10} {"Puesto":<20} {"Salario":<10}\n')
-            for empleado in empleados_filtrados:
-                file.write(f'{empleado["id"]:<10} {empleado["nombre"]:<20} {empleado["apellido"]:<20} {empleado["dni"]:<10} {empleado["puesto"]:<20} {empleado["salario"]:<10}\n')
 
-        print(f"Reporte generado: {nombre_reporte}")
-        return reporte_contador_sueldo + 1, True
-    except ValueError:
-        print("Error: El valor de sueldo no es válido. Por favor, ingrese un número válido.")
-        return reporte_contador_sueldo, False
         
 
-def generar_reporte_por_apellido(lista_empleados, apellido, reporte_contador_apellido):
-    try:
-        empleados_filtrados = [empleado for empleado in lista_empleados if empleado["apellido"].lower() == apellido.lower()]
-        if not empleados_filtrados:
-            print(f"No se encontraron empleados con el apellido '{apellido}'.")
-            return reporte_contador_apellido, False  
-        
-        reporte_contador_apellido += 1
-        fecha_actual = datetime.now().strftime("%Y-%m-%d %H-%M-%S")  
-        nombre_reporte = f"Reporte_{reporte_contador_apellido}_{fecha_actual}.txt"
-        
-        with open(nombre_reporte, 'w', encoding="utf-8") as file:
-            file.write(f"Reporte número: {reporte_contador_apellido}\n")
-            file.write(f"Fecha de solicitud: {fecha_actual}\n")
-            file.write(f"Cantidad de empleados con el apellido '{apellido}': {len(empleados_filtrados)}\n\n")
-            file.write(f'{"ID":<10} {"Nombre":<20} {"Apellido":<20} {"DNI":<10} {"Puesto":<20} {"Salario":<10}\n')
-            for empleado in empleados_filtrados:
-                file.write(f'{empleado["id"]:<10} {empleado["nombre"]:<20} {empleado["apellido"]:<20} {empleado["dni"]:<10} {empleado["puesto"]:<20} {empleado["salario"]:<10}\n')
-
-        print(f"Reporte generado: {nombre_reporte}")
-        return reporte_contador_apellido, True 
-    except ValueError:
-        print("Error: El valor de sueldo no es válido. Por favor, ingrese un número válido.")
-        return reporte_contador_apellido, False 
