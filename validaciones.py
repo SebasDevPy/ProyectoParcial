@@ -11,5 +11,3 @@ def validar_puesto(puesto):
     puestos_validos = ["gerente", "supervisor", "analista", "encargado", "asistente"]
     return puesto.lower() in puestos_validos
 
-def posible():
-    pass
