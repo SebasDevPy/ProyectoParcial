@@ -183,6 +183,8 @@ def eliminar_empleado(lista_empleados, lista_empleados_eliminados, id, empleados
 
     #if  empleado_encontrado is None:
      #   print("Empleado no encontrado.")
+    #if empleado_eliminado:
+        #empleados_eliminados.append(empleado_eliminado)
     
     #return empleados_no_eliminados, empleados_eliminados
 

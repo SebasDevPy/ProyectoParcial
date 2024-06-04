@@ -38,8 +38,7 @@ def main():
             lista_empleados[:] = empleados_no_eliminados
             empleados_no_eliminados.clear()
             #id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
-            #lista_empleados, empleados_eliminados = eliminar_empleado(lista_empleados, id_eliminar)
-            #lista_empleados_eliminados.extend(empleados_eliminados)
+            #lista_empleados, empleados_eliminados = eliminar_empleado(lista_empleados, id_eliminar, empleados_eliminados, empleados_no_eliminados)
         elif opcion == "4":
             mostrar_lista_empleados(lista_empleados)
         elif opcion == "5":
