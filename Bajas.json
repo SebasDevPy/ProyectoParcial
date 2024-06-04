@@ -1,0 +1,11 @@
+[
+    {
+        "id": 0,
+        "nombre": "sebastian",
+        "apellido": "casti\u00f1eiras",
+        "dni": "35019993",
+        "puesto": "Gerente",
+        "salario": 888777.0,
+        "eliminado": true
+    }
+]

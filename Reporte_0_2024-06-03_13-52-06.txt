@@ -1,0 +1,8 @@
+Reporte de empleados con salario mayor a 546654.0:
+
+Reporte número: 0
+Fecha de solicitud: 2024-06-03_13-52-06
+Cantidad de empleados que superan el sueldo de 546654.0: 1
+
+ID         Nombre               Apellido             DNI        Puesto               Salario   
+0          sebastian            castiñeiras          35019993   Gerente              888777.0  
