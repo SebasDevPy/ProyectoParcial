@@ -3,6 +3,16 @@ import json
 from datetime import datetime
 
 def leer_empleados_desde_csv(lista_empleados, contador_empleados_id):
+    """
+    Lee los datos de los empleados desde un archivo CSV y los agrega a una lista.
+
+    Args:
+        lista_empleados (list): Lista que almacenará los empleados leídos.
+        contador_empleados_id (int): Contador para el ID de los empleados.
+
+    Returns:
+        tuple: Una tupla con la lista actualizada de empleados y el nuevo contador de ID.
+    """
 
     try:
         with open('Empleados.csv', mode='r', newline='') as file:
@@ -28,6 +38,13 @@ def leer_empleados_desde_csv(lista_empleados, contador_empleados_id):
     return lista_empleados, contador_empleados_id
 
 def guardar_empleados_en_csv(lista_empleados):
+    """
+    Guarda la lista de empleados en un archivo CSV.
+
+    Args:
+        lista_empleados (list): Lista de empleados a guardar.
+    """
+
     try:
         with open('Empleados.csv', mode='w', newline='') as file:
             fieldnames = ["id", "nombre", "apellido", "dni", "puesto", "salario"]
@@ -40,6 +57,13 @@ def guardar_empleados_en_csv(lista_empleados):
         print(f"Error al guardar en el archivo Empleados.csv: {e}")
 
 def guardar_empleados_eliminados_en_json(lista_empleados_eliminados):
+    """
+    Guarda la lista de empleados eliminados en un archivo JSON.
+
+    Args:
+        lista_empleados_eliminados (list): Lista de empleados eliminados a guardar.
+    """
+        
     try:
         with open('Bajas.json', mode='w') as file:
             json.dump(lista_empleados_eliminados, file, indent=4)
@@ -48,7 +72,16 @@ def guardar_empleados_eliminados_en_json(lista_empleados_eliminados):
         print(f"Error al guardar en el archivo Bajas.json: {e}")
 
 def cargar_empleados_eliminados_desde_json(lista_empleados_eliminados):
-    
+    """
+    Carga los datos de los empleados eliminados desde un archivo JSON.
+
+    Args:
+        lista_empleados_eliminados (list): Lista que almacenará los empleados eliminados leídos.
+
+    Returns:
+        list: Lista actualizada de empleados eliminados.
+    """
+
     try:
         with open('Bajas.json', mode='r') as file:
             lista_empleados_eliminados = json.load(file)
@@ -61,6 +94,18 @@ def cargar_empleados_eliminados_desde_json(lista_empleados_eliminados):
 
 
 def generar_reporte_empleados_sueldo(lista_empleados, sueldo, reporte_contador_sueldo):
+    """
+    Genera un reporte de empleados con un salario mayor a un monto especificado.
+
+    Args:
+        lista_empleados (list): Lista de empleados.
+        sueldo (float): Monto de salario para filtrar empleados.
+        reporte_contador_sueldo (int): Contador de reportes generados.
+
+    Returns:
+        tuple: Una tupla con el contador actualizado de reportes y un booleano indicando éxito o fallo.
+    """
+        
     try:
         sueldo = float(sueldo)  
         empleados_filtrados = [empleado for empleado in lista_empleados if float(empleado["salario"]) > sueldo]
@@ -83,9 +128,21 @@ def generar_reporte_empleados_sueldo(lista_empleados, sueldo, reporte_contador_s
         return reporte_contador_sueldo, False
     
 def generar_reporte_por_apellido(lista_empleados, apellido, reporte_contador_apellido):
+    """
+    Genera un reporte de empleados con un apellido específico.
+
+    Args:
+        lista_empleados (list): Lista de empleados.
+        apellido (str): Apellido para filtrar empleados.
+        reporte_contador_apellido (int): Contador de reportes generados.
+
+    Returns:
+        tuple: Una tupla con el contador actualizado de reportes y un booleano indicando éxito o fallo.
+    """
+        
     try:
         empleados_filtrados = [empleado for empleado in lista_empleados if empleado["apellido"].lower() == apellido.lower()]
-        if not empleados_filtrados:
+        if len(empleados_filtrados) == 0:
             print(f"No se encontraron empleados con el apellido '{apellido}'.")
             return reporte_contador_apellido, False  
         

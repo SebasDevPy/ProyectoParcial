@@ -12,6 +12,7 @@ def mostrar_menu():
     print("7. Ordenar y mostrar empleados")
     print("8. Generar reporte de empleados por sueldo")
     print("9. Generar reporte de empleado por apellido")
+    print("10. Salario promedio de los empleados.")
     print("10. Salir")
 
 def main():
@@ -22,6 +23,8 @@ def main():
     historial = {}
     empleado_encontrado = None    
     empleados_no_eliminados = []
+    orden_inverso = []
+    orden = []
     # lista filtrada/copia de la lista original:  lista_empleados[:] = empleados_no_eliminados 
     while True:
         mostrar_menu()
@@ -31,14 +34,14 @@ def main():
             lista_empleados, contador_empleados_id = ingresar_empleado(lista_empleados, contador_empleados_id)
         elif opcion == "2":
             id_modificar = int(input("Ingrese el ID del empleado a modificar: "))
-            modificar_empleado(id_modificar, lista_empleados, historial,empleado_encontrado)  
+            modificar_empleado(id_modificar, lista_empleados, historial)  
         elif opcion == "3":
-            id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
-            eliminar_empleado(lista_empleados, lista_empleados_eliminados, id_eliminar, empleados_no_eliminados)
-            lista_empleados[:] = empleados_no_eliminados
-            empleados_no_eliminados.clear()
             #id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
-            #lista_empleados, empleados_eliminados = eliminar_empleado(lista_empleados, id_eliminar, empleados_eliminados, empleados_no_eliminados)
+            #eliminar_empleado(lista_empleados, lista_empleados_eliminados, id_eliminar, empleados_no_eliminados)
+            #lista_empleados[:] = empleados_no_eliminados
+            #empleados_no_eliminados.clear()
+            id_eliminar = int(input("Ingrese el ID del empleado a eliminar: "))
+            lista_empleados, empleados_eliminados = eliminar_empleado(lista_empleados, id_eliminar, empleados_eliminados, empleados_no_eliminados)
         elif opcion == "4":
             mostrar_lista_empleados(lista_empleados)
         elif opcion == "5":
@@ -47,7 +50,10 @@ def main():
         elif opcion == "6":
             buscar_empleado_por_dni_apellido(lista_empleados)
         elif opcion == "7":
-            ordenar_y_mostrar_empleados(lista_empleados)
+            #ordenar_y_mostrar_empleados(lista_empleados, ordenados)
+            criterio = input("Ingrese el criterio de ordenacion: nombre, apellido o salario: ")
+            direccion = input("Ingrese si quiere el orden de forma ascendente o descendente: ")
+            ordenar_por_criterio_burbujeo(lista_empleados, criterio, direccion, orden, orden_inverso)
         elif opcion == "8":
             sueldo = float(input("Ingrese el sueldo para generar el reporte: "))
             generar_reporte_empleados_sueldo(lista_empleados, sueldo, reporte_contador_sueldo)
