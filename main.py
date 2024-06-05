@@ -1,7 +1,7 @@
 from funciones_del_programa import *
-
-
+from os import system
 def mostrar_menu():
+    
     print("\n--- Menú Principal ---")
     print("1. Ingresar empleado")
     print("2. Modificar empleado")
@@ -12,8 +12,7 @@ def mostrar_menu():
     print("7. Ordenar y mostrar empleados")
     print("8. Generar reporte de empleados por sueldo")
     print("9. Generar reporte de empleado por apellido")
-    print("10. Salario promedio de los empleados.")
-    print("10. Salir")
+    print("10. Guardar y Salir")
 
 def main():
     lista_empleados, contador_empleados_id = leer_empleados_desde_csv([], 0)
@@ -27,6 +26,7 @@ def main():
     orden = []
     # lista filtrada/copia de la lista original:  lista_empleados[:] = empleados_no_eliminados 
     while True:
+        
         mostrar_menu()
         opcion = input("Seleccione una opción: ")
 
@@ -69,6 +69,9 @@ def main():
             break
         else:
             print("Opción no válida. Por favor, ingrese una opción del menú.")
+        
+        input("\nPresione Enter para continuar...")
+        system("cls")
 
 if __name__ == "__main__":
     main()

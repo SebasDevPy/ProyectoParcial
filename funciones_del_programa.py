@@ -341,13 +341,12 @@ def ordenar_por_criterio_burbujeo(lista_empleados, criterio, direccion, orden, o
                 if lista_empleados[j]["id"] > lista_empleados[j + 1]["id"]:
                     lista_empleados[j], lista_empleados[j + 1] = lista_empleados[j + 1], lista_empleados[j]
         
-        if direccion == "descendente":  
-            for i in range(len(lista_empleados) - 1, -1, -1):
-                orden_inverso.append(lista_empleados[i])
-            mostrar_lista_empleados(orden_inverso)
-        if direccion == "ascendente":
-            
-            for i in range(len(lista_empleados)):
-                orden.append(lista_empleados[i])
-            mostrar_lista_empleados(orden)
+    if direccion == "descendente":  
+        for i in range(len(lista_empleados) - 1, -1, -1):
+            orden_inverso.append(lista_empleados[i])
+        mostrar_lista_empleados(orden_inverso)
+    if direccion == "ascendente":         
+        for i in range(len(lista_empleados)):
+            orden.append(lista_empleados[i])
+        mostrar_lista_empleados(orden)
 
